@@ -262,12 +262,6 @@ body.readonly .anchor input,body.readonly .field input{pointer-events:none;backg
 <div class="gov-header">
   <div class="wrap"><div class="head-inner"><strong>Visto UK</strong> <span class="sub">acompanhamento do processo</span></div></div>
 </div>
-<div class="phase-banner">
-  <div class="wrap"><div class="inner">
-    <strong class="tag">Protótipo</strong>
-    <span class="pb-text">Dados de teste — nada é salvo. Recarregar reseta. A persistência real vem com o Supabase.</span>
-  </div></div>
-</div>
 <div class="snav">
   <div class="wrap">
     <ul role="tablist">
@@ -290,10 +284,9 @@ body.readonly .anchor input,body.readonly .field input{pointer-events:none;backg
 
 <div class="foot no-print">
   <div class="wrap">
-    <button class="btn secondary small" id="resetBtn" style="margin-bottom:12px">Restaurar dados de teste</button>
     <button class="btn secondary small no-print" id="logoutBtn" style="margin:0 0 12px 8px;display:none" onclick="logout()">Sair</button>
     <div id="shareBox"></div>
-    <div style="margin-top:8px">Protótipo v1 · valores de referência de setembro de 2026, a reconfirmar no gov.uk no dia de cada pedido.</div>
+    <div style="margin-top:8px">Valores de referência a reconfirmar no gov.uk no dia de cada pedido.</div>
   </div>
 </div>
 
@@ -706,7 +699,6 @@ document.querySelectorAll(".snav a").forEach(t=>t.addEventListener("click",e=>{
   if(name==="prazos") renderPrazos(); if(name==="documentos") renderDocumentos();
   if(name==="financeiro") renderFinanceiro(); if(name==="painel") renderPainel();
 }));
-$("#resetBtn").addEventListener("click",()=>{ S=SEED(); docFilter={phase:"all",frente:"all"}; renderAll(); switchTab("painel"); });
 
 function renderAll(){ renderHead(); renderPainel(); renderPrazos(); renderDocumentos(); renderFinanceiro(); }
 
