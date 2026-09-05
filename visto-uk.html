@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Visto UK — Acompanhamento</title>
+<style>
+:root{
+  --text:#0b0c0c; --secondary:#505a5f;
+  --link:#1d70b8; --link-hover:#003078;
+  --focus:#ffdd00;
+  --green:#00703c; --green-hover:#005a30; --green-shadow:#002d18;
+  --red:#d4351c;
+  --lgrey:#f3f2f1; --border:#b1b4b6; --border-dark:#0b0c0c;
+  --blue:#1d70b8; --orange:#f47738;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;font-family:arial,helvetica,sans-serif}
+body{
+  margin:0;background:#fff;color:var(--text);
+  font-family:"GDS Transport",arial,helvetica,sans-serif;
+  font-size:16px;line-height:1.45;
+  -webkit-font-smoothing:antialiased;
+}
+@media(min-width:641px){body{font-size:19px;line-height:1.47}}
+
+/* links */
+a{color:var(--link);text-decoration:underline;text-underline-offset:.1em}
+a:hover{color:var(--link-hover);text-decoration-thickness:max(3px,.1em)}
+a:focus,button:focus,input:focus,select:focus{outline:3px solid transparent}
+a:focus{background:var(--focus);color:var(--text);box-shadow:0 -2px var(--focus),0 4px var(--text);text-decoration:none}
+
+/* headings + type */
+h1,h2,h3{font-weight:700;margin:0;color:var(--text)}
+.h-xl{font-size:32px;line-height:1.09;margin:0 0 25px}
+.h-l{font-size:26px;line-height:1.11;margin:0 0 18px}
+.h-m{font-size:20px;line-height:1.15;margin:0 0 12px}
+@media(min-width:641px){
+  .h-xl{font-size:48px;margin:0 0 30px}
+  .h-l{font-size:32px}
+  .h-m{font-size:24px}
+}
+.caption-xl{display:block;color:var(--secondary);font-size:20px;font-weight:400;margin-bottom:4px}
+@media(min-width:641px){.caption-xl{font-size:24px}}
+.body-l{font-size:18px;line-height:1.5;margin:0 0 14px}
+@media(min-width:641px){.body-l{font-size:22px}}
+p{margin:0 0 14px;max-width:41em}
+.secondary{color:var(--secondary)}
+.num{font-variant-numeric:tabular-nums}
+.mt0{margin-top:0}
+
+/* header */
+.gov-header{background:var(--text);color:#fff}
+.gov-header .wrap{padding:11px 0}
+.gov-header strong{font-size:22px;font-weight:700;letter-spacing:.02em}
+.gov-header .sub{color:#b1b4b6;font-size:14px;margin-left:2px}
+.phase-banner{border-bottom:1px solid var(--border);padding:8px 0}
+.phase-banner .inner{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.phase-banner .pb-text{font-size:14px;color:var(--secondary)}
+@media(min-width:641px){.phase-banner .pb-text{font-size:16px}}
+
+/* service nav */
+.snav{border-bottom:1px solid var(--border);background:#fff}
+.snav ul{list-style:none;margin:0;padding:0;display:flex;overflow-x:auto;scrollbar-width:none}
+.snav ul::-webkit-scrollbar{display:none}
+.snav a{display:block;padding:12px 0;margin-right:22px;color:var(--link);font-size:16px;font-weight:700;text-decoration:none;white-space:nowrap;border-bottom:4px solid transparent}
+.snav a[aria-current="true"]{color:var(--text);border-bottom-color:var(--blue)}
+.snav a:hover{color:var(--link-hover)}
+.snav a:focus{background:var(--focus);color:var(--text);box-shadow:none;border-bottom-color:var(--text)}
+
+/* layout */
+.wrap{max-width:960px;margin:0 auto;padding-left:15px;padding-right:15px}
+@media(min-width:641px){.wrap{padding-left:30px;padding-right:30px}}
+main{padding:22px 0 70px}
+.panel{display:none}
+.panel.active{display:block}
+.grid2{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:641px){.grid2{grid-template-columns:1fr 1fr;gap:40px}}
+.block{margin-bottom:34px}
+
+/* tags */
+.tag{display:inline-block;font-weight:700;font-size:14px;line-height:1.3;padding:3px 8px 2px;
+  color:#144e81;background:#d2e2f1;text-decoration:none;white-space:nowrap;letter-spacing:.02em}
+@media(min-width:641px){.tag{font-size:16px}}
+.tag.grey{color:#383f43;background:#eeefef}
+.tag.green{color:#005a30;background:#cce2d8}
+.tag.red{color:#942514;background:#f6d7d2}
+.tag.yellow{color:#594d00;background:#fff7bf}
+.tag.orange{color:#6e3619;background:#fcd6c3}
+
+/* task list */
+.tasklist{margin:0;padding:0;list-style:none;border-top:1px solid var(--border)}
+.task{display:flex;justify-content:space-between;gap:15px;align-items:baseline;
+  padding:13px 0;border-bottom:1px solid var(--border)}
+.task .t-name{font-weight:700}
+.task .t-hint{color:var(--secondary);font-size:15px;font-weight:400;margin-top:4px;max-width:52ch}
+@media(min-width:641px){.task .t-hint{font-size:16px}}
+.task .t-right{flex:0 0 auto;text-align:right}
+
+/* summary list */
+.sl{margin:0;border-top:1px solid var(--border)}
+.sl-row{display:flex;justify-content:space-between;gap:20px;padding:11px 0;border-bottom:1px solid var(--border)}
+.sl-row .k{color:var(--text)}
+.sl-row .v{font-weight:700;text-align:right;white-space:nowrap}
+.sl-row .v.reg{font-weight:400}
+
+/* progress bar (flat) */
+.pbar{height:10px;background:var(--lgrey);margin-top:8px;max-width:520px}
+.pbar>i{display:block;height:100%;background:var(--blue)}
+
+/* inset + warning + notification */
+.inset{border-left:10px solid var(--border);padding:12px 15px;margin:18px 0;max-width:52em}
+.inset p{margin:0}
+.warning{display:flex;gap:12px;align-items:flex-start;margin:18px 0}
+.warning .w-ic{flex:0 0 auto;width:32px;height:32px;border-radius:50%;background:var(--text);color:#fff;
+  font-weight:700;text-align:center;line-height:32px;font-size:22px}
+.warning .w-tx{font-weight:700;max-width:48em}
+.notif{border:5px solid var(--blue);margin:18px 0}
+.notif.success{border-color:var(--green)}
+.notif .n-head{background:var(--blue);color:#fff;padding:8px 15px;font-weight:700;font-size:16px}
+.notif.success .n-head{background:var(--green)}
+.notif .n-body{padding:13px 15px}
+.notif .n-body p{margin:0;max-width:none}
+
+/* buttons */
+.btn{display:inline-block;border:2px solid transparent;border-radius:0;
+  background:var(--green);color:#fff;font-family:inherit;font-size:17px;font-weight:400;
+  line-height:1.2;padding:9px 12px;cursor:pointer;box-shadow:0 2px 0 var(--green-shadow);
+  text-decoration:none;-webkit-appearance:none}
+.btn:hover{background:var(--green-hover)}
+.btn:focus{outline:3px solid transparent;background:var(--focus);color:var(--text);box-shadow:0 2px 0 var(--text)}
+.btn.secondary{background:var(--lgrey);color:var(--text);box-shadow:0 2px 0 #929191}
+.btn.secondary:hover{background:#dbdad9}
+.btn.small{font-size:15px;padding:7px 10px}
+
+/* status button (cycles) */
+.stbtn{border:2px solid var(--text);background:#fff;color:var(--text);font-family:inherit;
+  font-weight:700;font-size:14px;padding:4px 9px;cursor:pointer;min-width:120px;text-align:center;line-height:1.3}
+.stbtn.pronto{background:#cce2d8;border-color:#cce2d8;color:#005a30}
+.stbtn.andamento{background:#d2e2f1;border-color:#d2e2f1;color:#144e81}
+.stbtn.pendente{background:#eeefef;border-color:#eeefef;color:#383f43}
+.stbtn.futuro{background:#fff;border-color:var(--border);color:var(--secondary);cursor:default}
+.stbtn:focus{outline:3px solid transparent;box-shadow:inset 0 0 0 2px var(--text),0 0 0 3px var(--focus)}
+
+/* filters */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
+.fbtn{border:1px solid var(--border);background:#fff;color:var(--text);font-family:inherit;
+  font-size:15px;font-weight:400;padding:6px 12px;cursor:pointer;border-radius:0}
+.fbtn[aria-pressed="true"]{background:var(--text);color:#fff;border-color:var(--text);font-weight:700}
+.fbtn:focus{outline:3px solid transparent;box-shadow:0 0 0 3px var(--focus),inset 0 0 0 2px var(--text)}
+
+/* inputs */
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-weight:700;font-size:16px}
+.field input,.anchor input{border:2px solid var(--text);border-radius:0;padding:8px 10px;
+  font-family:inherit;font-size:17px;background:#fff;color:var(--text);width:140px;font-variant-numeric:tabular-nums}
+.field input:focus,.anchor input:focus{outline:3px solid var(--focus);outline-offset:0;box-shadow:inset 0 0 0 2px var(--text)}
+.controls{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end}
+
+/* anchors */
+.anchor{display:flex;justify-content:space-between;gap:15px;align-items:center;flex-wrap:wrap;
+  padding:14px 0;border-bottom:1px solid var(--border)}
+.anchor:first-child{border-top:1px solid var(--border)}
+.anchor .a-name{font-weight:700}
+.anchor .a-sub{color:var(--secondary);font-size:15px;margin-top:3px;max-width:48ch}
+@media(min-width:641px){.anchor .a-sub{font-size:16px}}
+
+/* stats */
+.stats{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:641px){.stats{grid-template-columns:repeat(3,1fr);gap:30px}}
+.stat{padding:14px 0;border-bottom:1px solid var(--border)}
+@media(min-width:641px){.stat{border-bottom:0}}
+.stat .s-k{color:var(--secondary);font-size:16px}
+.stat .s-v{font-size:30px;font-weight:700;margin-top:2px;font-variant-numeric:tabular-nums}
+.stat .s-sub{color:var(--secondary);font-size:14px}
+
+/* chart */
+.chart{border:1px solid var(--border);padding:14px 8px 6px;margin-bottom:10px}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:15px;color:var(--text);margin-bottom:6px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:16px;height:0;border-top:3px solid;display:inline-block}
+.sw.dash{border-top-style:dashed}
+
+/* table */
+table.tbl{width:100%;border-collapse:collapse;font-size:15px}
+@media(min-width:641px){table.tbl{font-size:17px}}
+table.tbl th{text-align:left;font-weight:700;padding:10px 8px 10px 0;border-bottom:2px solid var(--text)}
+table.tbl td{padding:10px 8px 10px 0;border-bottom:1px solid var(--border);font-variant-numeric:tabular-nums;vertical-align:top}
+table.tbl th.r,table.tbl td.r{text-align:right;padding-right:0}
+table.tbl tr.sub td{font-weight:700;border-bottom:2px solid var(--text)}
+
+.foot{border-top:1px solid var(--border);padding:20px 0 40px;color:var(--secondary);font-size:14px}
+
+/* login + somente-leitura */
+#login{display:none;position:fixed;inset:0;background:#fff;z-index:100;overflow:auto;padding:56px 15px}
+#login .lbox{max-width:420px;margin:0 auto}
+#login .lbox p{max-width:none}
+#login .otp{display:none;margin-top:18px;padding-top:18px;border-top:1px solid var(--border)}
+#loginMsg{color:var(--secondary);font-size:15px;margin-top:10px}
+#shareBox{margin-top:12px;word-break:break-all}
+body.readonly .no-print{display:none!important}
+body.readonly .stbtn{pointer-events:none}
+body.readonly .anchor input,body.readonly .field input{pointer-events:none;background:var(--lgrey);color:var(--secondary);border-color:var(--border)}
+
+/* dashboard (painel) */
+.dash-hero{border:1px solid #d7dade;border-left:5px solid var(--blue);padding:20px 22px;margin-bottom:22px;background:#fff}
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:32px}
+@media(min-width:641px){.kpi-grid{grid-template-columns:repeat(4,1fr);gap:18px}}
+.kpi{border:1px solid #d7dade;border-top:4px solid var(--border);padding:14px 15px 15px;background:#fff;
+  display:flex;flex-direction:column;gap:7px;min-height:128px}
+.kpi.b-blue{border-top-color:var(--blue)}
+.kpi.b-green{border-top-color:var(--green)}
+.kpi.b-orange{border-top-color:var(--orange)}
+.kpi.b-dark{border-top-color:var(--text)}
+.kpi .k-lab{color:var(--secondary);font-size:14px;line-height:1.25}
+.kpi .k-val{font-size:27px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.05}
+@media(min-width:641px){.kpi .k-val{font-size:31px}}
+.kpi .k-foot{color:var(--secondary);font-size:13px;margin-top:auto}
+.kpi .k-spark{margin-top:auto;line-height:0}
+.donut-wrap{margin-top:auto}
+.rbar-list{margin:0;padding:0;list-style:none}
+.rbar{padding:11px 0;border-bottom:1px solid #e5e7e8}
+.rbar:last-child{border-bottom:0}
+.rbar-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.rbar-top .rb-name{font-weight:700}
+.rbar-top .rb-meta{color:var(--secondary);font-size:14px;font-variant-numeric:tabular-nums}
+.rtrack{height:8px;background:var(--lgrey)}
+.rtrack>i{display:block;height:100%}
+.timeline{list-style:none;margin:0;padding:0}
+.tl-item{position:relative;padding:0 0 18px 26px}
+.tl-item::before{content:"";position:absolute;left:5px;top:15px;bottom:0;width:2px;background:#e5e7e8}
+.tl-item:last-child::before{display:none}
+.tl-dot{position:absolute;left:0;top:3px;width:12px;height:12px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 3px #d2e2f1}
+.tl-item.proj .tl-dot{background:var(--border);box-shadow:0 0 0 3px #eeefef}
+.tl-date{font-weight:700;font-size:15px;font-variant-numeric:tabular-nums}
+.tl-title{margin-top:2px;font-weight:700}
+.tl-sub{color:var(--secondary);font-size:14px;margin-top:2px;max-width:46ch}
+
+@media print{
+  .gov-header,.snav,.phase-banner,.no-print,.controls,.stbtn,.fbtn,.filters,.btn{display:none!important}
+  .panel{display:none!important}.panel.active{display:block!important}
+  body{font-size:12pt}.chart{border-color:#999}
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<div id="login">
+  <div class="lbox">
+    <h1 class="h-l">Visto UK</h1>
+    <p>Digite a senha para acessar.</p>
+    <div class="field" style="margin-bottom:12px">
+      <label for="loginPass">Senha</label>
+      <input id="loginPass" type="password" autocomplete="current-password" style="width:100%;max-width:320px" onkeydown="if(event.key==='Enter'){submitPass();}">
+    </div>
+    <button class="btn" onclick="submitPass()">Entrar</button>
+    <div id="loginMsg"></div>
+  </div>
+</div>
+
+<div class="gov-header">
+  <div class="wrap"><div class="head-inner"><strong>Visto UK</strong> <span class="sub">acompanhamento do processo</span></div></div>
+</div>
+<div class="phase-banner">
+  <div class="wrap"><div class="inner">
+    <strong class="tag">Protótipo</strong>
+    <span class="pb-text">Dados de teste — nada é salvo. Recarregar reseta. A persistência real vem com o Supabase.</span>
+  </div></div>
+</div>
+<div class="snav">
+  <div class="wrap">
+    <ul role="tablist">
+      <li><a href="#" role="tab" aria-current="true" data-tab="painel">Painel</a></li>
+      <li><a href="#" role="tab" aria-current="false" data-tab="prazos">Prazos</a></li>
+      <li><a href="#" role="tab" aria-current="false" data-tab="documentos">Documentos</a></li>
+      <li><a href="#" role="tab" aria-current="false" data-tab="financeiro">Financeiro</a></li>
+    </ul>
+  </div>
+</div>
+
+<main>
+  <div class="wrap">
+    <section class="panel active" id="painel" role="tabpanel"></section>
+    <section class="panel" id="prazos" role="tabpanel"></section>
+    <section class="panel" id="documentos" role="tabpanel"></section>
+    <section class="panel" id="financeiro" role="tabpanel"></section>
+  </div>
+</main>
+
+<div class="foot no-print">
+  <div class="wrap">
+    <button class="btn secondary small" id="resetBtn" style="margin-bottom:12px">Restaurar dados de teste</button>
+    <button class="btn secondary small no-print" id="logoutBtn" style="margin:0 0 12px 8px;display:none" onclick="logout()">Sair</button>
+    <div id="shareBox"></div>
+    <div style="margin-top:8px">Protótipo v1 · valores de referência de setembro de 2026, a reconfirmar no gov.uk no dia de cada pedido.</div>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/* ===== CONFIG + DADOS DE TESTE ===== */
+const SEED = () => ({
+  config:{visaFee:2064,flrmFee:1407,ihsTotal:2587.50,ihsPerYear:1035,monzoAER:2.75,fxRate:6.9336,transferFee:0.44,
+    statementValidityDays:28,noticePeriodDays:28,residencyBeforeNoticeDays:8,fianceVisaValidityMonths:6,alertLeadDays:30},
+  fund:{balance:1200,monthlyContribution:300},
+  costs:[
+    {id:"c1",phase:1,label:"Taxa do visto de noivado",amount:2064,cur:"GBP"},
+    {id:"c2",phase:1,label:"Tradução juramentada",amount:600,cur:"BRL"},
+    {id:"c3",phase:1,label:"Viagem a Recife (biometria)",amount:900,cur:"BRL"},
+    {id:"c4",phase:2,label:"Notice of marriage (2 pessoas)",amount:70,cur:"GBP"},
+    {id:"c5",phase:2,label:"Cerimônia no register office",amount:57,cur:"GBP"},
+    {id:"c6",phase:2,label:"Custos do casamento (a definir)",amount:0,cur:"GBP"},
+    {id:"c7",phase:3,label:"Taxa do FLR(M)",amount:1407,cur:"GBP"},
+    {id:"c8",phase:3,label:"IHS — 30 meses",amount:2587.50,cur:"GBP"}
+  ],
+  documents:[
+    {id:"d1",phase:1,frente:"Financeiro",name:"6 holerites do noivo (Categoria A)",who:"Noivo",rule:"Datados até 28 dias antes do envio",validity:"Perecível",status:"pendente"},
+    {id:"d2",phase:1,frente:"Financeiro",name:"6 meses de extrato do noivo",who:"Noivo",rule:"Correspondem aos holerites; até 28 dias antes",validity:"Perecível",status:"pendente"},
+    {id:"d3",phase:1,frente:"Financeiro",name:"Carta do empregador",who:"Noivo",rule:"Salário, cargo, tipo de contrato, tempo de casa",validity:"Perecível",status:"pendente"},
+    {id:"d4",phase:1,frente:"Relacionamento",name:"Provas de relacionamento",who:"Ambos",rule:"Comunicação, viagens e fotos ao longo do tempo",validity:"—",status:"andamento"},
+    {id:"d5",phase:1,frente:"Relacionamento",name:"Intenção de casar (reserva)",who:"Ambos",rule:"Local e data reservados no Reino Unido",validity:"—",status:"pendente"},
+    {id:"d6",phase:1,frente:"Acomodação",name:"Comprovante de moradia no Reino Unido",who:"Noivo",rule:"Endereço e adequação da moradia",validity:"—",status:"pendente"},
+    {id:"d7",phase:1,frente:"Inglês",name:"Certificado A1",who:"Você",rule:"SELT nível A1",validity:"Obtido jul/2026",status:"pronto"},
+    {id:"d8",phase:1,frente:"Identidade",name:"Passaporte válido",who:"Você",rule:"Validade folgada para toda a jornada",validity:"—",status:"pronto"},
+    {id:"d9",phase:1,frente:"Identidade",name:"Passaporte britânico do noivo",who:"Noivo",rule:"Prova de nacionalidade do patrocinador",validity:"—",status:"pronto"},
+    {id:"d10",phase:3,frente:"Financeiro",name:"6 holerites do noivo — FLR(M)",who:"Noivo",rule:"Reavaliar Categoria A no envio",validity:"Perecível",status:"pendente"},
+    {id:"d11",phase:3,frente:"Financeiro",name:"6 meses de extrato — FLR(M)",who:"Noivo",rule:"Até 28 dias antes do envio",validity:"Perecível",status:"pendente"},
+    {id:"d12",phase:3,frente:"Financeiro",name:"Carta do empregador — FLR(M)",who:"Noivo",rule:"Atualizada para o envio do FLR(M)",validity:"Perecível",status:"pendente"},
+    {id:"d13",phase:3,frente:"Inglês",name:"Teste A2 (no Reino Unido)",who:"Você",rule:"Exigido na troca para FLR(M)",validity:"A fazer no UK",status:"futuro"}
+  ],
+  anchors:{fianceApplication:null,fianceGrant:null,ukArrival:null,noticeGiven:null}
+});
+let S = SEED();
+
+/* ===== HELPERS ===== */
+const $ = s => document.querySelector(s);
+const gbp = n => "£"+(Math.round(n*100)/100).toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
+const gbp0 = n => "£"+Math.round(n).toLocaleString("pt-BR");
+const brl = n => "R$ "+n.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
+const pct = n => Math.round(n)+"%";
+function parseDate(s){ if(!s) return null; const d=new Date(s+"T00:00:00"); return isNaN(d)?null:d; }
+function addDays(d,n){ const x=new Date(d); x.setDate(x.getDate()+n); return x; }
+function addMonths(d,n){ const x=new Date(d); x.setMonth(x.getMonth()+n); return x; }
+function fmtDate(d){ return d.toLocaleDateString("pt-BR",{day:"2-digit",month:"short",year:"numeric"}).replace(".",""); }
+function fmtMY(d){ return d.toLocaleDateString("pt-BR",{month:"short",year:"numeric"}).replace(".",""); }
+const today = () => { const d=new Date(); d.setHours(0,0,0,0); return d; };
+
+function costGBP(c){ return c.cur==="GBP" ? c.amount : c.amount/S.config.fxRate + S.config.transferFee; }
+function phaseCostGBP(p){ return S.costs.filter(c=>c.phase===p).reduce((a,c)=>a+costGBP(c),0); }
+const cumCost = p => { let t=0; for(let i=1;i<=p;i++) t+=phaseCostGBP(i); return t; };
+function monthlyRate(){ return Math.pow(1+S.config.monzoAER/100,1/12)-1; }
+function projectCover(t){
+  let b=S.fund.balance; const r=monthlyRate(), c=S.fund.monthlyContribution;
+  if(b>=t) return {months:0,date:today()};
+  for(let m=1;m<=60;m++){ b=b*(1+r)+c; if(b>=t) return {months:m,date:addMonths(today(),m)}; }
+  return null;
+}
+function balanceSeries(months){
+  const a=[]; let b=S.fund.balance; const r=monthlyRate(), c=S.fund.monthlyContribution;
+  a.push(b); for(let m=1;m<=months;m++){ b=b*(1+r)+c; a.push(b); } return a;
+}
+const FRENTES=["Financeiro","Documentos","Inglês","Relacionamento","Acomodação"];
+function currentPhase(){ if(S.anchors.ukArrival) return S.anchors.noticeGiven?3:2; return 1; }
+function frenteStat(frenteName){
+  const p=currentPhase();
+  let docs=S.documents.filter(d=>d.phase===p);
+  docs = frenteName==="Documentos" ? docs.filter(d=>d.frente==="Identidade") : docs.filter(d=>d.frente===frenteName);
+  if(!docs.length) return null;
+  const ready=docs.filter(d=>d.status==="pronto").length;
+  return {ready,total:docs.length,pct:Math.round(ready/docs.length*100)};
+}
+
+/* ===== DEADLINES ===== */
+function buildDeadlines(){
+  const A=S.anchors, cfg=S.config, out=[];
+  const g=parseDate(A.fianceGrant), arr=parseDate(A.ukArrival), notice=parseDate(A.noticeGiven), app=parseDate(A.fianceApplication);
+  const projF1=projectCover(cumCost(1));
+  const targetF1= app || (projF1?projF1.date:null);
+  if(targetF1){
+    out.push({date:addDays(targetF1,-cfg.statementValidityDays),
+      title:"Reunir extratos, holerites e carta do noivo",
+      sub: app?"Janela de 28 dias antes do envio registrado. Antes disso, vencem.":"Com base na projeção de cobertura da Fase 1. Vira data firme quando você registrar a entrada.",
+      real:!!app, calendar:!!app});
+  }
+  if(g){
+    const limit=addMonths(g,cfg.fianceVisaValidityMonths);
+    out.push({date:limit,title:"Casar antes do vencimento do visto de noivado",sub:"Seis meses a partir da concessão.",real:true,calendar:true});
+    out.push({date:limit,title:"Dar entrada no FLR(M) antes do vencimento",sub:"A troca interna precisa ser enviada dentro da validade.",real:true,calendar:true});
+  }
+  if(arr) out.push({date:addDays(arr,cfg.residencyBeforeNoticeDays),title:"Pode dar o notice of marriage",sub:cfg.residencyBeforeNoticeDays+" dias de residência antes do notice.",real:true,calendar:true});
+  if(notice) out.push({date:addDays(notice,cfg.noticePeriodDays+1),title:"Casamento pode ocorrer",sub:cfg.noticePeriodDays+" dias de espera após o notice.",real:true,calendar:true});
+  out.sort((a,b)=>a.date-b.date);
+  return out;
+}
+function blockers(){
+  const out=[];
+  if(!parseDate(S.anchors.fianceGrant)) out.push({level:"info",text:"Prazos firmes só são criados quando você registrar a concessão do visto de noivado. Até lá, o calendário Visto UK fica inerte."});
+  const finPend=S.documents.filter(d=>d.phase===1&&d.frente==="Financeiro"&&d.status!=="pronto").length;
+  if(finPend) out.push({level:"info",text:finPend+" documento(s) financeiro(s) do noivo pendente(s). São perecíveis: reunir só dentro da janela de 28 dias."});
+  if(S.fund.balance<cumCost(1)) out.push({level:"info",text:"O fundo ainda não cobre a Fase 1. Veja a projeção no Financeiro."});
+  return out;
+}
+
+/* ===== PAINEL ===== */
+function ringSVG(percent,size=78){
+  const r=(size-11)/2, c=2*Math.PI*r, off=c*(1-Math.min(percent,100)/100);
+  const col=percent>=100?"#00703c":"#1d70b8";
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-hidden="true">
+    <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="#eeefef" stroke-width="9"/>
+    <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${col}" stroke-width="9" stroke-linecap="round"
+      stroke-dasharray="${c}" stroke-dashoffset="${off}" transform="rotate(-90 ${size/2} ${size/2})"/>
+    <text x="${size/2}" y="${size/2}" text-anchor="middle" dominant-baseline="central" font-family="arial" font-size="19" font-weight="700" fill="#0b0c0c">${Math.round(percent)}%</text>
+  </svg>`;
+}
+function sparkline(){
+  const s=balanceSeries(12), W=140,H=42,pad=3;
+  const max=Math.max(...s), min=Math.min(...s), span=(max-min)||1;
+  const x=i=>pad+(W-2*pad)*(i/(s.length-1)), y=v=>H-pad-(H-2*pad)*((v-min)/span);
+  let p="M"+x(0)+","+y(s[0]); for(let i=1;i<s.length;i++) p+=" L"+x(i)+","+y(s[i]);
+  const area=p+` L${x(s.length-1)},${H} L${x(0)},${H} Z`;
+  return `<svg width="100%" height="${H}" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">
+    <path d="${area}" fill="#d2e2f1" opacity=".55"/>
+    <path d="${p}" fill="none" stroke="#1d70b8" stroke-width="2" vector-effect="non-scaling-stroke"/>
+  </svg>`;
+}
+function fundingTarget(){
+  for(let p=1;p<=3;p++){
+    if(S.fund.balance < cumCost(p)){
+      return {phase:p, cost:cumCost(p), have:S.fund.balance,
+        pct:Math.min(S.fund.balance/cumCost(p)*100,100),
+        missing:cumCost(p)-S.fund.balance, done:false, pr:projectCover(cumCost(p))};
+    }
+  }
+  return {phase:3, cost:cumCost(3), have:S.fund.balance, pct:100, missing:0, done:true, pr:{months:0,date:today()}};
+}
+function renderPainel(){
+  const p=currentPhase();
+  const nextDls=buildDeadlines().slice(0,3);
+  const blk=blockers();
+  const projF3needed=cumCost(3)-cumCost(2);
+
+  const T=fundingTarget();
+  let coverText, coverLead;
+  if(T.done){
+    coverText="Processo coberto";
+    coverLead="Todas as fases custeadas.";
+  }else if(T.pr){
+    coverText=fmtMY(T.pr.date);
+    coverLead = T.phase===1
+      ? "Fundo cobre a Fase 1. A data de entrada é você quem decide."
+      : "Fundo cobre a Fase "+T.phase+". Fase 1 já coberta.";
+  }else{
+    coverText="Além de 60 meses";
+    coverLead="Ajuste o aporte no Financeiro.";
+  }
+
+  const readyRows=FRENTES.map(f=>{
+    const st=frenteStat(f); if(!st) return "";
+    const col = st.pct===100?"#00703c":st.pct>0?"#1d70b8":"#b1b4b6";
+    return `<li class="rbar">
+      <div class="rbar-top"><span class="rb-name">${f}</span><span class="rb-meta">${st.ready}/${st.total} · ${st.pct}%</span></div>
+      <div class="rtrack"><i style="width:${Math.max(st.pct,2)}%;background:${col}"></i></div></li>`;
+  }).join("");
+
+  const dlRows = nextDls.length ? nextDls.map(d=>`
+    <li class="tl-item ${d.real?'':'proj'}"><span class="tl-dot"></span>
+      <div class="tl-date">${fmtMY(d.date)}</div>
+      <div class="tl-title">${d.title}</div>
+      <div class="tl-sub">${d.sub}</div></li>`).join("")
+    : `<li class="secondary">Sem prazos firmes ainda. Registre uma âncora na aba Prazos para ativá-los.</li>`;
+
+  const blkRows=blk.map(b=>`<li class="task"><div class="t-hint" style="font-size:inherit;color:var(--text)">${b.text}</div></li>`).join("");
+
+  $("#painel").innerHTML=`
+    <div class="dash-hero">
+      <span class="caption-xl" style="margin-bottom:2px">Projeção</span>
+      <h1 class="h-xl" style="margin-bottom:10px">${coverText}</h1>
+      <p class="body-l" style="margin-bottom:10px">${coverLead}</p>
+      <span class="tag ${p===1?'':'grey'}">${p===1?'Fase 1 · Noivado':p===2?'Fase 2 · Casamento':'Fase 3 · FLR(M)'}</span>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi b-blue">
+        <div class="k-lab">Saldo no fundo</div>
+        <div class="k-val num">${gbp0(S.fund.balance)}</div>
+        <div class="k-spark">${sparkline()}</div>
+      </div>
+      <div class="kpi b-green">
+        <div class="k-lab">${T.done?'Processo coberto':'Fase '+T.phase+' coberta'}</div>
+        <div class="donut-wrap">${ringSVG(T.pct)}</div>
+      </div>
+      <div class="kpi b-orange">
+        <div class="k-lab">${T.done?'Falta para o processo':'Falta para a Fase '+T.phase}</div>
+        <div class="k-val num">${gbp0(T.missing)}</div>
+        <div class="k-foot">de ${gbp0(T.cost)}</div>
+      </div>
+      <div class="kpi b-dark">
+        <div class="k-lab">Custo total do processo</div>
+        <div class="k-val num">${gbp0(cumCost(3))}</div>
+        <div class="k-foot">Fase 3 a garantir: ${gbp0(projF3needed)}</div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="block">
+        <h2 class="h-m">Prontidão por frente</h2>
+        <ul class="rbar-list">${readyRows||'<li class="secondary">Sem itens nesta fase.</li>'}</ul>
+      </div>
+      <div class="block">
+        <h2 class="h-m">Próximos prazos</h2>
+        <ul class="timeline">${dlRows}</ul>
+      </div>
+    </div>
+
+    <div class="warning">
+      <span class="w-ic" aria-hidden="true">!</span>
+      <span class="w-tx">No visto de noivado não se pode trabalhar. O dinheiro da Fase 3 (FLR(M) e IHS, ${gbp0(projF3needed)}) precisa estar garantido antes da entrada, porque não pode ser ganho lá dentro.</span>
+    </div>
+
+    ${blk.length?`<div class="block"><h2 class="h-m">Lembretes</h2><ul class="tasklist">${blkRows}</ul></div>`:""}
+
+    <div class="no-print"><button class="btn secondary" onclick="window.print()">Imprimir relatório de situação (PDF)</button></div>
+  `;
+}
+
+/* ===== PRAZOS ===== */
+function renderPrazos(){
+  const A=S.anchors;
+  const dls=buildDeadlines();
+  const defs=[
+    {key:"fianceApplication",name:"Entrada do pedido de visto de noivado",sub:""},
+    {key:"fianceGrant",name:"Concessão do visto de noivado",sub:"Ativa os prazos de casamento e FLR(M) (6 meses)."},
+    {key:"ukArrival",name:"Chegada ao Reino Unido",sub:"Inicia a contagem de residência antes do notice."},
+    {key:"noticeGiven",name:"Notice of marriage dado",sub:"Libera a data em que o casamento pode ocorrer."}
+  ];
+  const anchorRows=defs.map(a=>`
+    <div class="anchor">
+      <div><div class="a-name">${a.name}</div>${a.sub?`<div class="a-sub">${a.sub}</div>`:""}</div>
+      <input type="date" value="${A[a.key]||''}" onchange="setAnchor('${a.key}',this.value)" aria-label="${a.name}">
+    </div>`).join("");
+
+  const anySet=Object.values(A).some(v=>v);
+  const dlRows = dls.length ? dls.map(d=>`
+    <li class="task"><div><span class="t-name">${d.title}</span><div class="t-hint">${d.sub}</div></div>
+    <div class="t-right"><div class="num" style="font-weight:700">${fmtDate(d.date)}</div>${d.calendar?'<div style="margin-top:5px"><span class="tag green">Calendário</span></div>':''}</div></li>`).join("")
+    : `<li class="task"><div class="secondary">Nenhum prazo calculado ainda.</div></li>`;
+
+  const note = anySet
+    ? `<div class="notif success"><div class="n-head">No app real</div><div class="n-body"><p>Os itens marcados com <strong>Calendário</strong> seriam criados no Google Calendar “Visto UK” com alarme, e recalculados quando uma âncora muda.</p></div></div>`
+    : `<div class="notif"><div class="n-head">Calendário inerte</div><div class="n-body"><p>O calendário “Visto UK” só ganha eventos quando você registra a primeira data real acima. Experimente preencher a concessão do visto para ver os prazos aparecerem.</p></div></div>`;
+
+  $("#prazos").innerHTML=`
+    <h1 class="h-l">Prazos</h1>
+    <h2 class="h-m">Âncoras do processo</h2>
+    ${anchorRows}
+    <h2 class="h-m" style="margin-top:34px">Prazos calculados</h2>
+    <ul class="tasklist">${dlRows}</ul>
+    ${note}
+  `;
+}
+
+/* ===== DOCUMENTOS ===== */
+let docFilter={phase:"all",frente:"all"};
+function renderDocumentos(){
+  const phases=[["all","Todas as fases"],[1,"Fase 1"],[2,"Fase 2"],[3,"Fase 3"]];
+  const frentesAll=["all","Financeiro","Relacionamento","Acomodação","Inglês","Identidade"];
+  const phaseBtns=phases.map(([v,l])=>`<button class="fbtn" aria-pressed="${docFilter.phase==v}" onclick="setDocFilter('phase','${v}')">${l}</button>`).join("");
+  const frenteBtns=frentesAll.map(v=>`<button class="fbtn" aria-pressed="${docFilter.frente==v}" onclick="setDocFilter('frente','${v}')">${v==="all"?"Todas as frentes":v}</button>`).join("");
+
+  let docs=S.documents.slice();
+  if(docFilter.phase!=="all") docs=docs.filter(d=>d.phase==docFilter.phase);
+  if(docFilter.frente!=="all") docs=docs.filter(d=>d.frente===docFilter.frente);
+
+  const groups={}; docs.forEach(d=>{(groups[d.phase]=groups[d.phase]||[]).push(d);});
+  const phaseName={1:"Fase 1 · Noivado",2:"Fase 2 · Casamento",3:"Fase 3 · FLR(M)"};
+  let groupsHTML=Object.keys(groups).sort().map(pk=>{
+    const list=groups[pk], ready=list.filter(d=>d.status==="pronto").length;
+    const rows=list.map(d=>{
+      const label={pronto:"Pronto",andamento:"Em andamento",pendente:"Pendente",futuro:"Futuro"}[d.status];
+      const valChip = d.validity!=="—" ? `<span class="tag ${d.validity==='Perecível'?'orange':'grey'}">${d.validity}</span>` : "";
+      return `<li class="task">
+        <div><span class="t-name">${d.name}</span>
+        <div class="t-hint"><span class="tag grey">${d.who}</span> <span class="tag">${d.frente}</span> ${valChip} &nbsp;${d.rule}</div></div>
+        <div class="t-right"><button class="stbtn ${d.status}" onclick="cycleStatus('${d.id}')" ${d.status==='futuro'?'aria-disabled="true"':''}>${label}</button></div>
+      </li>`;
+    }).join("");
+    return `<h2 class="h-m" style="margin-top:30px">${phaseName[pk]} <span class="secondary" style="font-size:16px;font-weight:400">— ${ready}/${list.length} prontos</span></h2><ul class="tasklist">${rows}</ul>`;
+  }).join("");
+  if(!groupsHTML) groupsHTML=`<p class="secondary">Nenhum documento com esse filtro.</p>`;
+
+  $("#documentos").innerHTML=`
+    <h1 class="h-l">Documentos</h1>
+    <div class="filters">${phaseBtns}</div>
+    <div class="filters">${frenteBtns}</div>
+    ${groupsHTML}
+  `;
+}
+
+/* ===== FINANCEIRO ===== */
+function trendChart(){
+  const months=24, series=balanceSeries(months);
+  const t1=cumCost(1),t2=cumCost(2),t3=cumCost(3);
+  const W=680,H=260,padL=54,padR=16,padT=14,padB=26, innerW=W-padL-padR, innerH=H-padT-padB;
+  const yMax=Math.max(series[series.length-1],t3)*1.08;
+  const x=i=>padL+innerW*(i/months), y=v=>padT+innerH*(1-v/yMax);
+  let path="M"+x(0)+","+y(series[0]); for(let i=1;i<series.length;i++) path+=" L"+x(i)+","+y(series[i]);
+  const area=path+` L${x(months)},${padT+innerH} L${x(0)},${padT+innerH} Z`;
+  const lines=[{v:t1,color:"#00703c",label:"Fase 1"},{v:t2,color:"#f47738",label:"Fase 1+2"},{v:t3,color:"#d4351c",label:"Fase 1+2+3"}];
+  const thHTML=lines.map(l=> l.v>yMax?"":`<line x1="${padL}" y1="${y(l.v)}" x2="${W-padR}" y2="${y(l.v)}" stroke="${l.color}" stroke-width="1.6" stroke-dasharray="4 4"/><text x="${W-padR}" y="${y(l.v)-5}" text-anchor="end" font-size="12" fill="${l.color}" font-weight="700">${l.label}</text>`).join("");
+  const dots=lines.map(l=>{const pr=projectCover(l.v); return (!pr||pr.months>months)?"":`<circle cx="${x(pr.months)}" cy="${y(l.v)}" r="4.5" fill="#fff" stroke="${l.color}" stroke-width="2.5"/>`;}).join("");
+  const ticks=[0,yMax/2,yMax].map(v=>`<text x="${padL-8}" y="${y(v)+4}" text-anchor="end" font-size="11" fill="#505a5f">${gbp0(v)}</text><line x1="${padL}" y1="${y(v)}" x2="${W-padR}" y2="${y(v)}" stroke="#f3f2f1"/>`).join("");
+  let xl=""; for(let m=0;m<=months;m+=6) xl+=`<text x="${x(m)}" y="${H-6}" text-anchor="middle" font-size="11" fill="#505a5f">${fmtMY(addMonths(today(),m))}</text>`;
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Projeção da poupança cruzando os custos das fases">
+    <defs><linearGradient id="fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#1d70b8" stop-opacity=".10"/><stop offset="1" stop-color="#1d70b8" stop-opacity="0"/></linearGradient></defs>
+    ${ticks}<path d="${area}" fill="url(#fill)"/>${thHTML}
+    <path d="${path}" fill="none" stroke="#1d70b8" stroke-width="3" stroke-linejoin="round"/>${dots}${xl}
+  </svg>`;
+}
+function renderFinanceiro(){
+  const cover=[1,2,3].map(p=>({p,cost:cumCost(p),have:Math.min(S.fund.balance,cumCost(p))}));
+  const projections=[{label:"Fase 1",pr:projectCover(cumCost(1))},{label:"Fase 1+2",pr:projectCover(cumCost(2))},{label:"Fase 1+2+3",pr:projectCover(cumCost(3))}];
+  const phaseShort={1:"Fase 1",2:"Fase 2",3:"Fase 3"};
+  let costRows="";
+  [1,2,3].forEach(p=>{
+    S.costs.filter(c=>c.phase===p).forEach(c=>{
+      const orig=c.cur==="GBP"?gbp(c.amount):brl(c.amount);
+      costRows+=`<tr><td>${c.label}</td><td>${phaseShort[p]}</td><td class="r">${orig}</td><td class="r">${gbp(costGBP(c))}</td></tr>`;
+    });
+    costRows+=`<tr class="sub"><td>Subtotal ${phaseShort[p]}</td><td></td><td></td><td class="r">${gbp(phaseCostGBP(p))}</td></tr>`;
+  });
+  costRows+=`<tr class="sub"><td>Total do processo</td><td></td><td></td><td class="r">${gbp(cumCost(3))}</td></tr>`;
+
+  const projRows=projections.map(x=>{
+    const txt=!x.pr?"além de 60 meses":x.pr.months===0?"já coberto":fmtMY(x.pr.date)+" · "+x.pr.months+" meses";
+    return `<div class="sl-row"><span class="k">${x.label}</span><span class="v reg num">${txt}</span></div>`;
+  }).join("");
+  const coverBars=cover.map(c=>{const p=Math.min(c.have/c.cost*100,100);
+    return `<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;font-size:16px"><span>${phaseShort[c.p]}</span><span class="num" style="font-weight:700">${gbp(c.have)} / ${gbp(c.cost)}</span></div><div class="pbar" style="margin-top:6px"><i style="width:${p}%"></i></div></div>`;}).join("");
+
+  $("#financeiro").innerHTML=`
+    <h1 class="h-l">Financeiro</h1>
+    <div class="stats block">
+      <div class="stat"><div class="s-k">Saldo no Monzo</div><div class="s-v num">${gbp(S.fund.balance)}</div><div class="s-sub">poupança em libra</div></div>
+      <div class="stat"><div class="s-k">Aporte mensal</div><div class="s-v num">${gbp(S.fund.monthlyContribution)}</div><div class="s-sub">ritmo atual</div></div>
+      <div class="stat"><div class="s-k">Rentabilidade</div><div class="s-v num">${S.config.monzoAER.toLocaleString("pt-BR",{minimumFractionDigits:2})}%</div><div class="s-sub">AER do Monzo</div></div>
+    </div>
+
+    <div class="chart">${trendChart()}</div>
+    <div class="legend">
+      <span><i class="sw" style="border-color:#1d70b8"></i> Poupança projetada</span>
+      <span><i class="sw dash" style="border-color:#00703c"></i> Custo Fase 1</span>
+      <span><i class="sw dash" style="border-color:#f47738"></i> Fase 1+2</span>
+      <span><i class="sw dash" style="border-color:#d4351c"></i> Fase 1+2+3</span>
+    </div>
+
+    <div class="grid2" style="margin-top:20px">
+      <div class="block"><h2 class="h-m">Quando cada fase fica coberta</h2><dl class="sl">${projRows}</dl></div>
+      <div class="block"><h2 class="h-m">Cobertura por fase</h2>${coverBars}</div>
+    </div>
+
+    <div class="block no-print">
+      <h2 class="h-m">Ajustar fundo</h2>
+      <div class="controls">
+        <div class="field"><label for="inBal">Saldo (£)</label><input id="inBal" type="number" value="${S.fund.balance}" step="50"></div>
+        <div class="field"><label for="inCon">Aporte mensal (£)</label><input id="inCon" type="number" value="${S.fund.monthlyContribution}" step="25"></div>
+        <div class="field"><label for="inAer">Rentabilidade (% AER)</label><input id="inAer" type="number" value="${S.config.monzoAER}" step="0.05"></div>
+        <button class="btn" onclick="applyFund()">Aplicar</button>
+        <button class="btn secondary" onclick="addAporte()">Registrar aporte</button>
+      </div>
+    </div>
+
+    <h2 class="h-m">Custos do processo</h2>
+    <div style="overflow-x:auto">
+      <table class="tbl"><thead><tr><th>Custo</th><th>Fase</th><th class="r">Original</th><th class="r">Em libra</th></tr></thead><tbody>${costRows}</tbody></table>
+    </div>
+    <div class="inset"><p>Custos em real convertidos a 1 GBP = ${S.config.fxRate.toLocaleString("pt-BR",{minimumFractionDigits:4})} BRL, mais ${gbp(S.config.transferFee)} de transferência por conversão. A maior parte do custo é em libra.</p></div>
+  `;
+}
+
+/* ===== AÇÕES ===== */
+function setAnchor(key,val){ S.anchors[key]=val||null; renderPrazos(); renderHead(); renderPainel(); save(); }
+function setDocFilter(k,v){ docFilter[k]=(v==="all"?"all":(k==="phase"?(isNaN(v)?v:Number(v)):v)); renderDocumentos(); }
+function cycleStatus(id){
+  const d=S.documents.find(x=>x.id===id); if(!d||d.status==="futuro") return;
+  const order=["pendente","andamento","pronto"]; d.status=order[(order.indexOf(d.status)+1)%order.length];
+  renderDocumentos(); renderPainel(); save();
+}
+function applyFund(){
+  const b=parseFloat($("#inBal").value), c=parseFloat($("#inCon").value), a=parseFloat($("#inAer").value);
+  if(!isNaN(b)) S.fund.balance=b; if(!isNaN(c)) S.fund.monthlyContribution=c; if(!isNaN(a)) S.config.monzoAER=a;
+  renderFinanceiro(); renderPainel(); save();
+}
+function addAporte(){ S.fund.balance+=S.fund.monthlyContribution; renderFinanceiro(); renderPainel(); save(); }
+
+/* ===== NAV ===== */
+function renderHead(){}
+function switchTab(name){
+  document.querySelectorAll(".snav a").forEach(t=>t.setAttribute("aria-current", t.dataset.tab===name?"true":"false"));
+  document.querySelectorAll(".panel").forEach(pn=>pn.classList.toggle("active", pn.id===name));
+  window.scrollTo({top:0,behavior:"instant"});
+}
+document.querySelectorAll(".snav a").forEach(t=>t.addEventListener("click",e=>{
+  e.preventDefault(); const name=t.dataset.tab; switchTab(name);
+  if(name==="prazos") renderPrazos(); if(name==="documentos") renderDocumentos();
+  if(name==="financeiro") renderFinanceiro(); if(name==="painel") renderPainel();
+}));
+$("#resetBtn").addEventListener("click",()=>{ S=SEED(); docFilter={phase:"all",frente:"all"}; renderAll(); switchTab("painel"); });
+
+function renderAll(){ renderHead(); renderPainel(); renderPrazos(); renderDocumentos(); renderFinanceiro(); }
+
+/* ===== SUPABASE (persistência) ===== */
+/* Cole os dois valores do seu projeto (Settings > API). Enquanto ficarem em branco, o app roda em modo de teste local. */
+const SUPABASE_URL = "https://rszvdejkxbjurefxhfah.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzenZkZWpreGJqdXJlZnhoZmFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg1Njc0NjYsImV4cCI6MjEwNDE0MzQ2Nn0.3pJTmVq4aDC1GXsvuCd1ASOLw6buEJVdIiMeNc4uMU4";
+
+const PERSIST = /^https:\/\/.+\.supabase\.co\/?$/.test(SUPABASE_URL) && SUPABASE_ANON_KEY.length>20;
+let sb=null, appPass=null, shareId=null, readOnly=false, saveTimer=null;
+const shareToken = new URLSearchParams(location.search).get("share");
+
+function rememberPass(p){ try{ localStorage.setItem("vistoPass",p); }catch(e){} }
+function recallPass(){ try{ return localStorage.getItem("vistoPass"); }catch(e){ return null; } }
+function forgetPass(){ try{ localStorage.removeItem("vistoPass"); }catch(e){} }
+
+function save(){
+  if(!PERSIST || readOnly || !appPass) return;
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(async()=>{
+    try{ await sb.rpc("save_state",{pass:appPass, newdata:S}); }
+    catch(e){ console.error("save falhou", e); }
+  }, 700);
+}
+function showApp(){ document.getElementById("login").style.display="none"; const lo=document.getElementById("logoutBtn"); if(lo) lo.style.display=""; }
+function showLogin(){ document.getElementById("login").style.display="block"; }
+function renderShare(){
+  const el=document.getElementById("shareBox"); if(!el||!shareId) return;
+  const link=location.origin+location.pathname+"?share="+shareId;
+  el.innerHTML='Link de leitura para o noivo: <a href="'+link+'">'+link+'</a>';
+}
+async function tryLogin(pass){
+  try{
+    const {data,error}=await sb.rpc("load_state",{pass});
+    if(error) throw error;
+    appPass=pass;
+    const hasData = data && data.data && Object.keys(data.data).length>0;
+    S = hasData ? data.data : SEED();
+    shareId = data ? data.share : null;
+    if(!hasData){ await sb.rpc("save_state",{pass, newdata:S}); }
+    rememberPass(pass); showApp(); renderAll(); renderShare();
+    return true;
+  }catch(e){ return false; }
+}
+function submitPass(){
+  const p=document.getElementById("loginPass").value;
+  document.getElementById("loginMsg").textContent="Verificando...";
+  tryLogin(p).then(ok=>{ if(!ok) document.getElementById("loginMsg").textContent="Senha incorreta."; });
+}
+function logout(){ forgetPass(); location.reload(); }
+async function initShared(){
+  readOnly=true; document.body.classList.add("readonly");
+  const {data,error}=await sb.rpc("get_shared_state",{token:shareToken});
+  if(error||!data){ $("#painel").innerHTML='<h1 class="h-l">Link indisponível</h1><p>Este link de leitura é inválido ou foi desativado.</p>'; return; }
+  S=data;
+  const pb=document.querySelector(".phase-banner .pb-text"); if(pb) pb.textContent="Visualização somente leitura.";
+  renderAll();
+}
+async function initOwner(){
+  const saved=recallPass();
+  if(saved && await tryLogin(saved)) return;
+  showLogin();
+}
+async function init(){
+  if(!PERSIST){ renderAll(); return; }               // modo de teste local
+  sb=supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  if(shareToken){ await initShared(); return; }       // modo leitura (noivo)
+  await initOwner();                                  // modo dono (senha)
+}
+init();
+</script>
+</body>
+</html>
